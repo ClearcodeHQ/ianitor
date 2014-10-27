@@ -1,0 +1,11 @@
+language: python
+install: pip install tox --use-mirrors
+env:
+  - TOX_ENV=py27
+  - TOX_ENV=py33
+  - TOX_ENV=pep8
+
+script: tox -e $TOX_ENV
+notifications:
+  email:
+    - swistakm@gmail.com
