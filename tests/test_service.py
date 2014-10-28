@@ -202,4 +202,5 @@ def test_ignore_connection_failures():
 
     # assert service can be killed
     tailf.kill()
-    assert tailf.process.poll()
+    tailf.process.wait()
+
