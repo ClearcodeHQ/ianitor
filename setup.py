@@ -33,7 +33,7 @@ setup(
     name='ianitor',
     version=VERSION,
     author='Michał Jaworski',
-    author_email='swistakm@gmail.com',
+    author_email='m.jaworski@clearcode.cc',
     description='Doorkeeper for consul discovered services.',
     long_description=README,
 

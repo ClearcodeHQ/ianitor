@@ -18,12 +18,92 @@ your existing process/service supervision tool like
 
 Simply install with pip:
 
-    pip install ianitor
+    $ pip install ianitor
     
 And you're ready to go with:
 
-    ianitor - yourapp --some-switch
+    $ ianitor appname -- ./yourapp --some-switch
     
+You can check if service is registered diggin' into consul DNS service:
+
+    $ dig @localhost -p 8600 appname.service.consul
+    ; <<>> DiG 9.9.3-P1 <<>> @localhost -p 8600 appname.service.consul
+    ; (1 server found)
+    ;; global options: +cmd
+    ;; Got answer:
+    ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 25966
+    ;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0
+    ;; WARNING: recursion requested but not available
+
+    ;; QUESTION SECTION:
+    ;appname.service.consul.		IN	A
+
+    ;; ANSWER SECTION:
+    appname.service.consul.	0	IN	A	10.54.54.214
+
+    ;; Query time: 44 msec
+    ;; SERVER: 127.0.0.1#8600(127.0.0.1)
+    ;; WHEN: Tue Oct 28 13:53:09 CET 2014
+    ;; MSG SIZE  rcvd: 78
+
+Full usage:
+
+    usage: ianitor [-h] [--consul-agent hostname[:port]] [--ttl seconds]
+                   [--heartbeat seconds] [--tags tag] [--id ID] [--port PORT] [-v]
+                   service-name -- command [arguments]
+    
+    Doorkeeper for consul discovered services.
+    
+    positional arguments:
+      service-name                    service name in consul cluster
+    
+    optional arguments:
+      -h, --help                      show this help message and exit
+      --consul-agent=hostname[:port]  set consul agent address
+      --ttl=seconds                   set TTL of service in consul cluster
+      --heartbeat=seconds             set rocess poll heartbeat (defaults to
+                                      ttl/10)
+      --tags=tag                      set service tags in consul cluster (can be
+                                      used multiple times)
+      --id=ID                         set service id - must be node unique
+                                      (defaults to service name)
+      --port=PORT                     set service port
+      -v, --verbose                   enable logging to stdout (use multiple times
+                                      to increase verbosity)
+
+
+## How does ianitor work?
+
+ianitor spawns process using python's `subprocess.Popen()` with command line
+specified after `--` . It redirects its own stdin to child's stdin and
+childs stdout/stderr to his own stdout/stderr.
+
+This way ianitor does not interfere with logging of managed service if it
+logs to stdout. Moreover ianitor does not log anything to make it easier to
+plug it in your existing process supervision tool.
+
+ianitor handles service registration in consul agent as well as keeping
+registered service entry in consul in "healthy" state by continously requesting
+it's [TTL health check endpoint](http://www.consul.io/docs/agent/checks.html). 
+
+## Example supervisord config
+
+Assuming that you have some service under supervisord supervision:
+
+    [program:rabbitmq]
+    command=/usr/sbin/rabbitmq-server
+    priority=0
+    
+    autostart=true
+    
+Simply wrap it with ianitor call:
+
+    [program:rabbitmq]
+    command=/usr/local/bin/ianitor rabbitmq -- /usr/sbin/rabbitmq-server
+    priority=0
+    
+    autostart=true
+
 ## Licence
 
 This code is under [WTFPL](https://en.wikipedia.org/wiki/WTFPL).
