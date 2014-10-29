@@ -23,32 +23,31 @@ class CustomFormatter(argparse.HelpFormatter):
             metavar, = self._metavar_formatter(action, action.dest)(1)
             return metavar
 
+        parts = []
+
+        # if the Optional doesn't take a value, format is:
+        #    -s, --long
+        if action.nargs == 0:
+            parts.extend(action.option_strings)
+
+        # if the Optional takes a value, format is:
+        #    -s ARGS, --long ARGS
         else:
-            parts = []
+            default = action.dest.upper()
+            args_string = self._format_args(action, default)
 
-            # if the Optional doesn't take a value, format is:
-            #    -s, --long
-            if action.nargs == 0:
-                parts.extend(action.option_strings)
-
-            # if the Optional takes a value, format is:
-            #    -s ARGS, --long ARGS
+            # here is the hack: do not add args to first option part
+            # if it is both long and short
+            if len(action.option_strings) > 1:
+                parts.append(action.option_strings[0] + "")
+                remaining = action.option_strings[1:]
             else:
-                default = action.dest.upper()
-                args_string = self._format_args(action, default)
+                remaining = action.option_strings
 
-                # here is the hack: do not add args to first option part
-                # if it is both long and short
-                if len(action.option_strings) > 1:
-                    parts.append(action.option_strings[0] + "")
-                    remaining = action.option_strings[1:]
-                else:
-                    remaining = action.option_strings
+            for option_string in remaining:
+                parts.append('%s=%s' % (option_string, args_string))
 
-                for option_string in remaining:
-                    parts.append('%s=%s' % (option_string, args_string))
-
-            return ', '.join(parts)
+        return ', '.join(parts)
 
     def add_usage(self, usage, actions, groups, prefix=None):
         """
@@ -110,7 +109,7 @@ def get_parser():
     parser.add_argument(
         "--heartbeat",
         metavar="seconds", type=float, default=None,
-        help="set rocess poll heartbeat (defaults to ttl/10)",
+        help="set process poll heartbeat (defaults to ttl/10)",
     )
 
     parser.add_argument(
