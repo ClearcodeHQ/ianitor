@@ -16,6 +16,7 @@
 
 # You should have received a copy of the GNU Lesser General Public License
 # along with ianitor.  If not, see <http://www.gnu.org/licenses/>.
+
 from setuptools import setup, find_packages
 import os
 
@@ -48,15 +49,15 @@ PACKAGE_DIR = {'': 'src'}
 setup(
     name='ianitor',
     version=VERSION,
-    author='Michał Jaworski',
-    author_email='m.jaworski@clearcode.cc',
+    author='Clearcode - The A Room',
+    author_email='thearoom@clearcode.cc',
     description='Doorkeeper for consul discovered services.',
     long_description=README,
 
     packages=PACKAGES,
     package_dir=PACKAGE_DIR,
 
-    url='https://github.com/swistakm/ianitor',
+    url='https://github.com/ClearcodeHQ/ianitor',
     include_package_data=True,
     install_requires=INSTALL_REQUIRES,
     zip_safe=False,

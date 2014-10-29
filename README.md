@@ -105,5 +105,12 @@ Simply wrap it with ianitor call:
 
 ## Licence
 
-This code is under [WTFPL](https://en.wikipedia.org/wiki/WTFPL).
-Just do what the fuck you want with it.
+`ianitor`  is licensed under LGPL license, version 3.
+
+
+## Contributing and reporting bugs
+
+Source code is available at: 
+[ClearcodeHQ/ianitor](https://github.com/ClearcodeHQ/ianitor). Issue tracker 
+is located at [GitHub Issues](https://github.com/ClearcodeHQ/ianitor/issues).
+Projects [PyPi page](https://pypi.python.org/pypi/ianitor).
