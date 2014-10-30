@@ -42,7 +42,16 @@ VERSION = get_version(eval(version_line.split('=')[-1]))
 
 INSTALL_REQUIRES = reqs('requirements.txt')
 
-README = open(os.path.join(os.path.dirname(__file__), 'README.md')).read()
+try:
+    from pypandoc import convert
+    read_md = lambda f: convert(f, 'rst')
+except ImportError:
+    print(
+        "warning: pypandoc module not found, could not convert Markdown to RST"
+    )
+    read_md = lambda f: open(f, 'r').read()
+
+README = os.path.join(os.path.dirname(__file__), 'README.md')
 PACKAGES = find_packages('src')
 PACKAGE_DIR = {'': 'src'}
 
@@ -52,7 +61,7 @@ setup(
     author='Clearcode - The A Room',
     author_email='thearoom@clearcode.cc',
     description='Doorkeeper for consul discovered services.',
-    long_description=README,
+    long_description=read_md(README),
 
     packages=PACKAGES,
     package_dir=PACKAGE_DIR,
