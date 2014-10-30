@@ -1,5 +1,22 @@
 # -*- coding: utf-8 -*-
-# -*- coding: utf-8 -*-
+# Copyright (C) 2014 by Clearcode <http://clearcode.cc>
+# and associates (see AUTHORS.md).
+
+# This file is part of ianitor.
+
+# mirakuru is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# ianitor is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+
+# You should have received a copy of the GNU Lesser General Public License
+# along with ianitor.  If not, see <http://www.gnu.org/licenses/>.
+
 from setuptools import setup, find_packages
 import os
 
@@ -25,33 +42,43 @@ VERSION = get_version(eval(version_line.split('=')[-1]))
 
 INSTALL_REQUIRES = reqs('requirements.txt')
 
-README = open(os.path.join(os.path.dirname(__file__), 'README.md')).read()
+try:
+    from pypandoc import convert
+    read_md = lambda f: convert(f, 'rst')
+except ImportError:
+    print(
+        "warning: pypandoc module not found, could not convert Markdown to RST"
+    )
+    read_md = lambda f: open(f, 'r').read()
+
+README = os.path.join(os.path.dirname(__file__), 'README.md')
 PACKAGES = find_packages('src')
 PACKAGE_DIR = {'': 'src'}
 
 setup(
     name='ianitor',
     version=VERSION,
-    author='Michał Jaworski',
-    author_email='swistakm@gmail.com',
+    author='Clearcode - The A Room',
+    author_email='thearoom@clearcode.cc',
     description='Doorkeeper for consul discovered services.',
-    long_description=README,
+    long_description=read_md(README),
 
     packages=PACKAGES,
     package_dir=PACKAGE_DIR,
 
-    url='https://github.com/swistakm/ianitor',
+    url='https://github.com/ClearcodeHQ/ianitor',
     include_package_data=True,
     install_requires=INSTALL_REQUIRES,
     zip_safe=False,
 
-    license="WTFPL",
+    license="LGPL",
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
+        'License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)',  # noqa
     ],
 
     entry_points={
