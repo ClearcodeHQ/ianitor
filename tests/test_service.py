@@ -158,12 +158,12 @@ def test_keep_alive():
     # test that service health check is unknown or critical after registration
     tailf.register()
     # small sleep for cluster consensus
-    sleep(0.1)
+    sleep(0.5)
     assert _get_service_status(session, tailf) in ("unknown", "critical")
 
     # assert service is healthy back again after keep alive
     tailf.keep_alive()
-    sleep(0.1)
+    sleep(0.5)
     assert _get_service_status(session, tailf) == "passing"
 
     # assert service health check fails after ttl passed
@@ -182,7 +182,7 @@ def test_keepalive_reregister():
     # [integration] assert service is healthy
     tailf.register()
     tailf.keep_alive()
-    sleep(0.1)
+    sleep(0.5)
     assert _get_service_status(session, tailf) == "passing"
 
     # [integration] assert that check
@@ -191,7 +191,7 @@ def test_keepalive_reregister():
 
     # [integration] assert that keepalive makes service registered again
     tailf.keep_alive()
-    sleep(0.1)
+    sleep(0.5)
     assert _get_service_status(session, tailf) == "passing"
 
 
