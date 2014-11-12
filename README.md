@@ -61,7 +61,7 @@ Full usage:
       -h, --help                      show this help message and exit
       --consul-agent=hostname[:port]  set consul agent address
       --ttl=seconds                   set TTL of service in consul cluster
-      --heartbeat=seconds             set rocess poll heartbeat (defaults to
+      --heartbeat=seconds             set process poll heartbeat (defaults to
                                       ttl/10)
       --tags=tag                      set service tags in consul cluster (can be
                                       used multiple times)
