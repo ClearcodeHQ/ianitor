@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/ClearcodeHQ/ianitor.svg?branch=master)](https://travis-ci.org/ClearcodeHQ/ianitor)
+[![Coverage Status](https://img.shields.io/coveralls/ClearcodeHQ/ianitor.svg)](https://coveralls.io/r/ClearcodeHQ/ianitor)
 
 # ianitor
 
