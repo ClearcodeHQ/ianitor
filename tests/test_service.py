@@ -18,10 +18,17 @@
 # along with ianitor.  If not, see <http://www.gnu.org/licenses/>.
 
 from time import sleep
+import os
+
 import mock
+from consul import Consul
 
 from ianitor import service
-from consul import Consul
+
+if os.environ.get("TRAVIS", False):
+    SLEEP_WAIT = 3
+else:
+    SLEEP_WAIT = 0.1
 
 
 def get_tailf_service(session):
@@ -30,7 +37,7 @@ def get_tailf_service(session):
         session=session,
         service_name="tailf",
         # small ttl for faster testing
-        ttl=1,
+        ttl=SLEEP_WAIT * 2,
     )
 
 
@@ -158,16 +165,16 @@ def test_keep_alive():
     # test that service health check is unknown or critical after registration
     tailf.register()
     # small sleep for cluster consensus
-    sleep(0.5)
+    sleep(SLEEP_WAIT)
     assert _get_service_status(session, tailf) in ("unknown", "critical")
 
     # assert service is healthy back again after keep alive
     tailf.keep_alive()
-    sleep(0.5)
+    sleep(SLEEP_WAIT)
     assert _get_service_status(session, tailf) == "passing"
 
     # assert service health check fails after ttl passed
-    sleep(tailf.ttl + 0.5)
+    sleep(tailf.ttl + SLEEP_WAIT)
     assert _get_service_status(session, tailf) == "critical"
 
 
@@ -182,7 +189,7 @@ def test_keepalive_reregister():
     # [integration] assert service is healthy
     tailf.register()
     tailf.keep_alive()
-    sleep(0.5)
+    sleep(SLEEP_WAIT)
     assert _get_service_status(session, tailf) == "passing"
 
     # [integration] assert that check
@@ -191,7 +198,7 @@ def test_keepalive_reregister():
 
     # [integration] assert that keepalive makes service registered again
     tailf.keep_alive()
-    sleep(0.5)
+    sleep(SLEEP_WAIT)
     assert _get_service_status(session, tailf) == "passing"
 
 
