@@ -44,12 +44,17 @@ INSTALL_REQUIRES = reqs('requirements.txt')
 
 try:
     from pypandoc import convert
-    read_md = lambda f: convert(f, 'rst')
+
+    def read_md(f):
+        return convert(f, 'rst')
+
 except ImportError:
     print(
         "warning: pypandoc module not found, could not convert Markdown to RST"
     )
-    read_md = lambda f: open(f, 'r').read()
+
+    def read_md(f):
+        return open(f, 'r').read()  # noqa
 
 README = os.path.join(os.path.dirname(__file__), 'README.md')
 PACKAGES = find_packages('src')

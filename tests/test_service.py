@@ -26,7 +26,7 @@ from consul import Consul
 
 def get_tailf_service(session):
     return service.Service(
-        ["tailf", "/dev/null"],
+        ["tail", "-f", "/dev/null"],
         session=session,
         service_name="tailf",
         # small ttl for faster testing
