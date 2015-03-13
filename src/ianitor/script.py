@@ -88,6 +88,10 @@ def main():
             signal.signal(signum, signal_handler)
         except RuntimeError:
             # signals that cannot be catched will raise RuntimeException
+            # (SIGKILL) ...
+            pass
+        except OSError:
+            # ... or OSError (SIGSTOP)
             pass
 
     while sleep(args.heartbeat) or service.is_up():
@@ -95,7 +99,8 @@ def main():
 
     logger.info("process quit with errorcode %s %s" % (
         service.process.poll(),
-        "(signal)" if service.process.poll() < 0 else ""
+        "(signal)" if service.process.poll() and service.process.poll() < 0
+        else ""
     ))
 
     service.deregister()
