@@ -40,15 +40,15 @@ def test_coordinates():
         args_parser.coordinates(":123")
 
 
-@patch('sys.argv', ["ianitor", "tailf", '--', 'tailf', 'something'])
+@patch('sys.argv', ["ianitor", "tailf", '--', 'tail', '-f', 'something'])
 def test_parse_args():
     args, invocation = args_parser.parse_args()
-    assert invocation == ['tailf', 'something']
+    assert invocation == ['tail', '-f', 'something']
 
 TEST_TTL = 100
 
 
-@patch('sys.argv', ["ianitor", "tailf", '--ttl', str(TEST_TTL), '--', 'tailf', 'something'])  # noqa
+@patch('sys.argv', ["ianitor", "tailf", '--ttl', str(TEST_TTL), '--', 'tail', '-f', 'something'])  # noqa
 def test_default_heartbeat():
     args, invocation = args_parser.parse_args()
     assert args.heartbeat == TEST_TTL / 10.
