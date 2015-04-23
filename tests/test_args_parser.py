@@ -45,6 +45,12 @@ def test_parse_args():
     args, invocation = args_parser.parse_args()
     assert invocation == ['tail', '-f', 'something']
 
+
+@patch('sys.argv', ["ianitor", "tailf", '--port', '1234', '--', 'tail', '-f', 'something'])  # noqa
+def test_parse_port():
+    args, invocation = args_parser.parse_args()
+    assert args.port == 1234
+
 TEST_TTL = 100
 
 
