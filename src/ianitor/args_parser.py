@@ -143,7 +143,7 @@ def get_parser():
 
     parser.add_argument(
         "--port",
-        type=int, default=0,
+        type=int,
         help="set service port",
     )
 
