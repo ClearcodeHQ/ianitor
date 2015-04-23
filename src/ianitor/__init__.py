@@ -18,5 +18,5 @@
 # along with ianitor.  If not, see <http://www.gnu.org/licenses/>.
 
 # flake8: noqa
-VERSION = (0, 0, 2)  # PEP 386
+VERSION = (0, 0, 3)  # PEP 386
 __version__ = ".".join([str(x) for x in VERSION])
