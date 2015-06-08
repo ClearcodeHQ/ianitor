@@ -22,6 +22,9 @@ import subprocess
 import logging
 from requests import ConnectionError
 
+from consul import Check
+
+
 logger = logging.getLogger(__name__)
 
 
@@ -93,8 +96,8 @@ class Service(object):
                 service_id=self.service_id,
                 port=self.port,
                 tags=self.tags,
-                # format it into XXXs format
-                ttl="%ss" % self.ttl,
+                # format the ttl into XXXs format
+                check=Check.ttl("%ss" % self.ttl)
             )
 
     def deregister(self):
@@ -119,11 +122,11 @@ class Service(object):
         :return: None
         """
         with ignore_connection_errors("ttl_pass"):
-            if not self.session.health.check.ttl_pass(self.check_id):
+            if not self.session.agent.check.ttl_pass(self.check_id):
                 # register and ttl_pass again if it failed
                 logger.warning("service keep-alive failed, re-registering")
                 self.register()
-                self.session.health.check.ttl_pass(self.check_id)
+                self.session.agent.check.ttl_pass(self.check_id)
 
     def __del__(self):
         """
