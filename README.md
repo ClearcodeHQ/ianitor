@@ -84,25 +84,29 @@ plug it in your existing process supervision tool.
 
 ianitor handles service registration in consul agent as well as keeping
 registered service entry in consul in "healthy" state by continously requesting
-it's [TTL health check endpoint](http://www.consul.io/docs/agent/checks.html). 
+it's [TTL health check endpoint](http://www.consul.io/docs/agent/checks.html).
 
 ## Example supervisord config
 
 Assuming that you have some service under supervisord supervision:
 
-    [program:rabbitmq]
-    command=/usr/sbin/rabbitmq-server
-    priority=0
-    
-    autostart=true
-    
+```ini
+[program:rabbitmq]
+command=/usr/sbin/rabbitmq-server
+priority=0
+
+autostart=true
+```
+
 Simply wrap it with ianitor call:
 
-    [program:rabbitmq]
-    command=/usr/local/bin/ianitor rabbitmq -- /usr/sbin/rabbitmq-server
-    priority=0
-    
-    autostart=true
+```ini
+[program:rabbitmq]
+command=/usr/local/bin/ianitor rabbitmq -- /usr/sbin/rabbitmq-server
+priority=0
+
+autostart=true
+```
 
 ## Licence
 
@@ -111,7 +115,7 @@ Simply wrap it with ianitor call:
 
 ## Contributing and reporting bugs
 
-Source code is available at: 
-[ClearcodeHQ/ianitor](https://github.com/ClearcodeHQ/ianitor). Issue tracker 
+Source code is available at:
+[ClearcodeHQ/ianitor](https://github.com/ClearcodeHQ/ianitor). Issue tracker
 is located at [GitHub Issues](https://github.com/ClearcodeHQ/ianitor/issues).
 Projects [PyPi page](https://pypi.python.org/pypi/ianitor).
