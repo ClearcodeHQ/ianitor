@@ -38,7 +38,7 @@ def ignore_connection_errors(action="unknown"):
 
 class Service(object):
     def __init__(self, command, session, ttl, service_name,
-                 service_id=None, tags=None, port=None):
+                 service_id=None, tags=None, address=None, port=None):
         self.command = command
         self.session = session
         self.process = None
@@ -46,6 +46,7 @@ class Service(object):
         self.ttl = ttl
         self.service_name = service_name
         self.tags = tags or []
+        self.address = address
         self.port = port
         self.service_id = service_id or service_name
 
@@ -94,6 +95,7 @@ class Service(object):
             self.session.agent.service.register(
                 name=self.service_name,
                 service_id=self.service_id,
+                address=self.address,
                 port=self.port,
                 tags=self.tags,
                 # format the ttl into XXXs format

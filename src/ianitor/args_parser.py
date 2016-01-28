@@ -142,6 +142,11 @@ def get_parser():
     )
 
     parser.add_argument(
+        "--address",
+        help="set service address",
+    )
+
+    parser.add_argument(
         "--port",
         type=int,
         help="set service port",
