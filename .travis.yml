@@ -8,8 +8,8 @@ env:
   - TOX_ENV=coverage
 
 before_script:
-  - wget https://dl.bintray.com/mitchellh/consul/0.4.1_linux_amd64.zip
-  - unzip 0.4.1_linux_amd64.zip
+  - wget https://releases.hashicorp.com/consul/0.4.1/consul_0.4.1_linux_amd64.zip
+  - unzip consul_0.4.1_linux_amd64.zip
   - start-stop-daemon --start --background --exec `pwd`/consul -- agent -server -data-dir /tmp/consul -bootstrap-expect=1
 
 script:
