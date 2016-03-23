@@ -13,6 +13,13 @@ your existing process/service supervision tool like
 [circus](http://circus.readthedocs.org/en/0.11.1/),
 [runit](http://smarden.org/runit/) etc.
 
+## Consul/Python versions compatibility
+
+**ianitor** is compatibile with Python 2.7, 3.3, 3.4, and 3.5 versions.
+It is also tested against each latest patch version of every major/minor consul
+release starting from 0.4.1 version.
+
+For details of our test matrix see `travis.yml` file.
 
 ## Installation and usage
 
@@ -26,25 +33,27 @@ And you're ready to go with:
     
 You can check if service is registered diggin' into consul DNS service:
 
-    $ dig @localhost -p 8600 appname.service.consul
-    ; <<>> DiG 9.9.3-P1 <<>> @localhost -p 8600 appname.service.consul
-    ; (1 server found)
-    ;; global options: +cmd
-    ;; Got answer:
-    ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 25966
-    ;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0
-    ;; WARNING: recursion requested but not available
+```console
+$ dig @localhost -p 8600 appname.service.consul
+; <<>> DiG 9.9.3-P1 <<>> @localhost -p 8600 appname.service.consul
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 25966
+;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0
+;; WARNING: recursion requested but not available
 
-    ;; QUESTION SECTION:
-    ;appname.service.consul.		IN	A
+;; QUESTION SECTION:
+;appname.service.consul.		IN	A
 
-    ;; ANSWER SECTION:
-    appname.service.consul.	0	IN	A	10.54.54.214
+;; ANSWER SECTION:
+appname.service.consul.	0	IN	A	10.54.54.214
 
-    ;; Query time: 44 msec
-    ;; SERVER: 127.0.0.1#8600(127.0.0.1)
-    ;; WHEN: Tue Oct 28 13:53:09 CET 2014
-    ;; MSG SIZE  rcvd: 78
+;; Query time: 44 msec
+;; SERVER: 127.0.0.1#8600(127.0.0.1)
+;; WHEN: Tue Oct 28 13:53:09 CET 2014
+;; MSG SIZE  rcvd: 78
+```
 
 Full usage:
 
