@@ -2,14 +2,32 @@ language: python
 
 install: pip install tox --use-mirrors
 env:
-  - TOX_ENV=py27
-  - TOX_ENV=py33
-  - TOX_ENV=pep8
-  - TOX_ENV=coverage
+  matrix:
+    # consul 0.4.1
+    - TOX_ENV=py27     CONSUL_VERSION=0.4.1
+    - TOX_ENV=py33     CONSUL_VERSION=0.4.1
+    - TOX_ENV=py34     CONSUL_VERSION=0.4.1
+    - TOX_ENV=py35     CONSUL_VERSION=0.4.1
+
+    # consul 0.5.2
+    - TOX_ENV=py27     CONSUL_VERSION=0.5.2
+    - TOX_ENV=py33     CONSUL_VERSION=0.5.2
+    - TOX_ENV=py34     CONSUL_VERSION=0.5.2
+    - TOX_ENV=py35     CONSUL_VERSION=0.5.2
+
+    # consul 0.6.4
+    - TOX_ENV=py27     CONSUL_VERSION=0.6.4
+    - TOX_ENV=py33     CONSUL_VERSION=0.6.4
+    - TOX_ENV=py34     CONSUL_VERSION=0.6.4
+    - TOX_ENV=py35     CONSUL_VERSION=0.6.4
+
+    # coverage and style checks
+    - TOX_ENV=pep8     CONSUL_VERSION=0.4.1
+    - TOX_ENV=coverage CONSUL_VERSION=0.4.1
 
 before_script:
-  - wget https://releases.hashicorp.com/consul/0.4.1/consul_0.4.1_linux_amd64.zip
-  - unzip consul_0.4.1_linux_amd64.zip
+  - wget https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip
+  - unzip consul_${CONSUL_VERSION}_linux_amd64.zip
   - start-stop-daemon --start --background --exec `pwd`/consul -- agent -server -data-dir /tmp/consul -bootstrap-expect=1
 
 script:
