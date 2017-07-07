@@ -1,6 +1,6 @@
 language: python
 
-install: pip install tox --use-mirrors
+install: pip install tox
 env:
   matrix:
     # consul 0.4.1
