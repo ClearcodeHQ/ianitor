@@ -22,7 +22,7 @@ import subprocess
 import logging
 from requests import ConnectionError
 
-from consul import Check
+from consul import Check, ConsulException
 
 
 logger = logging.getLogger(__name__)
@@ -122,7 +122,9 @@ class Service(object):
         :return: None
         """
         with ignore_connection_errors("ttl_pass"):
-            if not self.session.agent.check.ttl_pass(self.check_id):
+            try:
+                self.session.agent.check.ttl_pass(self.check_id)
+            except ConsulException:
                 # register and ttl_pass again if it failed
                 logger.warning("service keep-alive failed, re-registering")
                 self.register()

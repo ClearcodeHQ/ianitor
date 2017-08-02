@@ -3,27 +3,27 @@ language: python
 install: pip install tox
 env:
   matrix:
-    # consul 0.4.1
-    - TOX_ENV=py27     CONSUL_VERSION=0.4.1
-    - TOX_ENV=py33     CONSUL_VERSION=0.4.1
-    - TOX_ENV=py34     CONSUL_VERSION=0.4.1
-    - TOX_ENV=py35     CONSUL_VERSION=0.4.1
+    # consul 0.7.5
+    - TOX_ENV=py27     CONSUL_VERSION=0.7.5
+    - TOX_ENV=py33     CONSUL_VERSION=0.7.5
+    - TOX_ENV=py34     CONSUL_VERSION=0.7.5
+    - TOX_ENV=py35     CONSUL_VERSION=0.7.5
 
-    # consul 0.5.2
-    - TOX_ENV=py27     CONSUL_VERSION=0.5.2
-    - TOX_ENV=py33     CONSUL_VERSION=0.5.2
-    - TOX_ENV=py34     CONSUL_VERSION=0.5.2
-    - TOX_ENV=py35     CONSUL_VERSION=0.5.2
+    # consul 0.8.5
+    - TOX_ENV=py27     CONSUL_VERSION=0.8.5
+    - TOX_ENV=py33     CONSUL_VERSION=0.8.5
+    - TOX_ENV=py34     CONSUL_VERSION=0.8.5
+    - TOX_ENV=py35     CONSUL_VERSION=0.8.5
 
-    # consul 0.6.4
-    - TOX_ENV=py27     CONSUL_VERSION=0.6.4
-    - TOX_ENV=py33     CONSUL_VERSION=0.6.4
-    - TOX_ENV=py34     CONSUL_VERSION=0.6.4
-    - TOX_ENV=py35     CONSUL_VERSION=0.6.4
+    # consul 0.9.0
+    - TOX_ENV=py27     CONSUL_VERSION=0.9.0
+    - TOX_ENV=py33     CONSUL_VERSION=0.9.0
+    - TOX_ENV=py34     CONSUL_VERSION=0.9.0
+    - TOX_ENV=py35     CONSUL_VERSION=0.9.0
 
     # coverage and style checks
-    - TOX_ENV=pep8     CONSUL_VERSION=0.4.1
-    - TOX_ENV=coverage CONSUL_VERSION=0.4.1
+    - TOX_ENV=pep8     CONSUL_VERSION=0.9.0
+    - TOX_ENV=coverage CONSUL_VERSION=0.9.0
 
 before_script:
   - wget https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip

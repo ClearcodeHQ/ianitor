@@ -76,7 +76,7 @@ def test_remove_services():
         if description["ID"] != 'consul':
             agent.service.deregister(description["ID"])
 
-    # this is consul 0.4.1 behavior - consul is one of services
+    # this is consul behavior - consul is one of services
     services = agent.services()
     if 'consul' in services:
         services.pop('consul')
@@ -142,7 +142,6 @@ def _get_service_status(session, service_obj):
         # return none because check does not even exist
         return
 
-    # from pprint import pprint; pprint(checks)
     service_check = list(filter(
         lambda check: check["ServiceName"] == service_obj.service_name, checks
     )).pop()
