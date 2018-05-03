@@ -29,11 +29,10 @@ before_script:
   - mkdir tmp
   - wget https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip
   - unzip consul_${CONSUL_VERSION}_linux_amd64.zip
-  - ls -al
-  - consul agent -server -data-dir tmp -bootstrap-expect=1
+  - ${TRAVIS_BUILD_DIR}/consul agent -server -data-dir tmp -bootstrap-expect=1
 
 script:
-  - CONSUL_DATA_DIR=tmp tox -e $TOX_ENV
+  - CONSUL_BIN=${TRAVIS_BUILD_DIR}/consul CONSUL_DATA_DIR=tmp tox -e $TOX_ENV
 
 notifications:
   email:
