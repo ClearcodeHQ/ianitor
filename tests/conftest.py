@@ -26,7 +26,7 @@ def consul_instance():
         stderr=subprocess.PIPE,
     )
 
-    time.sleep(0.1)
+    time.sleep(10)
 
     yield proc
 
