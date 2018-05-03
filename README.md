@@ -76,6 +76,8 @@ Full usage:
                                       used multiple times)
       --id=ID                         set service id - must be node unique
                                       (defaults to service name)
+      --address=hostname              set service address (if different than agent
+                                      address)
       --port=PORT                     set service port
       -v, --verbose                   enable logging to stdout (use multiple times
                                       to increase verbosity)
