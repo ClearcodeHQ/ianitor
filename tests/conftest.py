@@ -23,11 +23,11 @@ def consul_instance():
 
     proc = subprocess.Popen(
         command,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        # stdout=subprocess.PIPE,
+        # stderr=subprocess.PIPE,
     )
-
     time.sleep(10)
+    proc.communicate()
 
     yield proc
 
