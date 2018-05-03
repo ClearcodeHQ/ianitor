@@ -2,8 +2,13 @@ import shlex
 import subprocess
 import time
 import os
+import logging
 
 import pytest
+
+
+logger = logging.getLogger(__name__)
+
 
 CONSUL_BIN = os.environ.get(
     "CONSUL_BIN",
@@ -19,6 +24,7 @@ def consul_instance():
               ''.format(bin=CONSUL_BIN, datadir=CONSUL_DATA_DIR)
 
     command = command.format(bin=bin).strip()
+    logger.warning("running %s" % command)
     command = shlex.split(command)
 
     proc = subprocess.Popen(
@@ -26,10 +32,7 @@ def consul_instance():
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
     )
-    print(proc.communicate())
 
     yield proc
-
-    print(proc.communicate())
 
     proc.terminate()
