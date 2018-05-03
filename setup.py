@@ -36,26 +36,16 @@ def get_version(version_tuple):
     return '.'.join(map(str, version_tuple))
 
 
+def read(filename):
+    with open(filename, 'r') as file_handle:
+        return file_handle.read()
+
+
 init = os.path.join(os.path.dirname(__file__), 'src', 'ianitor', '__init__.py')
 version_line = list(filter(lambda l: l.startswith('VERSION'), open(init)))[0]
 VERSION = get_version(eval(version_line.split('=')[-1]))
 
 INSTALL_REQUIRES = reqs('requirements.txt')
-
-try:
-    from pypandoc import convert
-
-    def read_md(f):
-        return convert(f, 'rst')
-
-except ImportError:
-    print(
-        "warning: pypandoc module not found, could not convert Markdown to RST"
-    )
-
-    def read_md(f):
-        return open(f, 'r').read()  # noqa
-
 README = os.path.join(os.path.dirname(__file__), 'README.md')
 PACKAGES = find_packages('src')
 PACKAGE_DIR = {'': 'src'}
@@ -66,7 +56,8 @@ setup(
     author='Clearcode - The A Room',
     author_email='thearoom@clearcode.cc',
     description='Doorkeeper for consul discovered services.',
-    long_description=read_md(README),
+    long_description=read(README),
+    long_description_content_type="text/markdown",
 
     packages=PACKAGES,
     package_dir=PACKAGE_DIR,
