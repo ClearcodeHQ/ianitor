@@ -24,7 +24,7 @@ import ianitor.script
 
 
 @patch('sys.argv', ["ianitor", "tail", "--", "tail", '-f', '/dev/null'])
-def test_script_main():
+def test_script_main(consul_instance):
     """Run ianitor.script.main and mock service is_up so it will quit
     immediately"""
 

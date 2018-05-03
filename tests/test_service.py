@@ -41,7 +41,7 @@ def get_tailf_service(session):
     )
 
 
-def test_service_start():
+def test_service_start(consul_instance):
     session = Consul()
     tailf = get_tailf_service(session)
 
@@ -52,14 +52,14 @@ def test_service_start():
         register_method.assert_any_call()
 
 
-def test_is_up_false_if_not_started():
+def test_is_up_false_if_not_started(consul_instance):
     session = Consul()
     tailf = get_tailf_service(session)
 
     assert not tailf.is_up()
 
 
-def test_remove_services():
+def test_remove_services(consul_instance):
     """
     ~ Yo dawg I herd that you like tests so we put test inside your test so
       you can test while you test
@@ -84,27 +84,27 @@ def test_remove_services():
     assert not services
 
 
-def test_service_register():
+def test_service_register(consul_instance):
     session = Consul()
     agent = session.agent
 
     tailf = get_tailf_service(session)
     tailf.start()
 
-    test_remove_services()
+    test_remove_services(consul_instance)
     tailf.register()
 
     assert agent.services()
 
 
-def test_deregister():
+def test_deregister(consul_instance):
     session = Consul()
     agent = session.agent
 
     tailf = get_tailf_service(session)
     tailf.start()
 
-    test_remove_services()
+    test_remove_services(consul_instance)
     tailf.register()
     tailf.deregister()
 
@@ -115,8 +115,8 @@ def test_deregister():
     assert not services
 
 
-def test_kill():
-    test_remove_services()
+def test_kill(consul_instance):
+    test_remove_services(consul_instance)
 
     session = Consul()
     agent = session.agent
@@ -149,11 +149,11 @@ def _get_service_status(session, service_obj):
     return service_check["Status"]
 
 
-def test_keep_alive():
+def test_keep_alive(consul_instance):
     """
     Integration test for keeping service alive in consul cluster
     """
-    test_remove_services()
+    test_remove_services(consul_instance)
     session = Consul()
     tailf = get_tailf_service(session)
 
@@ -177,11 +177,11 @@ def test_keep_alive():
     assert _get_service_status(session, tailf) == "critical"
 
 
-def test_keepalive_reregister():
+def test_keepalive_reregister(consul_instance):
     """
     Integration test that keep-alive registers service again if it disapears
     """
-    test_remove_services()
+    test_remove_services(consul_instance)
     session = Consul()
     tailf = get_tailf_service(session)
 
@@ -192,7 +192,7 @@ def test_keepalive_reregister():
     assert _get_service_status(session, tailf) == "passing"
 
     # [integration] assert that check
-    test_remove_services()
+    test_remove_services(consul_instance)
     assert _get_service_status(session, tailf) is None
 
     # [integration] assert that keepalive makes service registered again
@@ -201,7 +201,7 @@ def test_keepalive_reregister():
     assert _get_service_status(session, tailf) == "passing"
 
 
-def test_ignore_connection_failures():
+def test_ignore_connection_failures(consul_instance):
     session = Consul(host="invalid")
 
     tailf = get_tailf_service(session)
