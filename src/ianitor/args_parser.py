@@ -142,6 +142,12 @@ def get_parser():
     )
 
     parser.add_argument(
+        "--address",
+        metavar="hostname", type=str,
+        help="set service address (if different than agent address)",
+    )
+
+    parser.add_argument(
         "--port",
         type=int,
         help="set service port",
