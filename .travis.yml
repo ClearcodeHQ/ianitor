@@ -28,10 +28,13 @@ env:
 before_script:
   - wget https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip
   - unzip consul_${CONSUL_VERSION}_linux_amd64.zip
-  - start-stop-daemon --start --background --exec ${TRAVIS_BUILD_DIR}/consul -- agent -server -data-dir /tmp/consul -bootstrap-expect=1
+  - start-stop-daemon --start --background --exec /bin/bash -- -s "${TRAVIS_BUILD_DIR}/consul agent -server -data-dir /tmp/consul -bootstrap-expect=1 > daemon.log 2>&1"
 
 script:
   - tox -e $TOX_ENV
+
+after_script:
+  - cat daemon.log
 
 notifications:
   email:
